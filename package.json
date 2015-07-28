@@ -25,7 +25,8 @@
     "passport-sina": "^0.1.0",
     "winston": "^0.8.x",
     "connect-flash": "^0.1.1",
-    "node-restful": "^0.2.1"
+    "node-restful": "^0.2.1",
+    "http-proxy": "^1.11.1"
   },
   "jshintConfig": {
     "curly": true,
