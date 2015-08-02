@@ -1,0 +1,206 @@
+# this is an example of the Uber API
+# as a demonstration of an API spec in YAML
+swagger: '2.0'
+info:
+  title: Authorize Gateway
+  description: handle token and app client
+  version: "1.0.0"
+# the domain of the service
+host: localhost:1337
+# array of all schemes that your API supports
+schemes:
+  - http
+# will be prefixed to all paths
+produces:
+  - application/json
+paths:
+  /api/v1/oauth/token:
+    post:
+      tags:
+        - OAuth Token
+      summary: Login or register
+      description: |
+        The Oauth/token endpoint returns tokens for HeHa user. The response includes HeHa uid, social info, access token, expiry time and refresh token
+      parameters:
+        - name: grant_type
+          in: formData
+          description: OAuth 2 grant type (password)
+          required: true
+          type: string
+        - name: client_id
+          in: formData
+          description: OAuth 2 Client ID
+          required: true
+          type: string
+        - name: client_secret
+          in: formData
+          description: OAuth 2 Client Secret
+          required: true
+          type: string
+        - name: social
+          in: formData
+          description: (wechat) or (weibo)
+          required: true
+          type: string
+        - name: social_info
+          in: formData
+          description: user info from 3rd party login in JSON
+          required: true
+          type: string
+      responses:
+        200:
+          description: returns tokens for HeHa user
+          schema:
+            properties: 
+              access_token: 
+                type: "string"
+                description: TTL accesstoken
+              refresh_token: 
+                type: "string"
+                description: use to exchange an new accesstoken
+              expires_in: 
+                type: "integer"
+                description: life time for access token
+              uid: 
+                type: "string"
+                description: HeHa uid
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+            
+            
+            
+            
+            
+  /api/v1/oauth/refresh:
+    post:
+      tags:
+        - OAuth Token
+      summary: Use Refresh Token to exchange new access token
+      description: |
+        Use when access token is expiried, passing refresh token and return new accesstoken
+      parameters:
+        - name: grant_type
+          in: formData
+          description: OAuth 2 grant type (refresh_token)
+          required: true
+          type: string
+        - name: client_id
+          in: formData
+          description: OAuth 2 Client ID
+          required: true
+          type: string
+        - name: client_secret
+          in: formData
+          description: OAuth 2 Client Secret
+          required: true
+          type: string
+      responses:
+        200:
+          description: returns tokens for HeHa user
+          schema:
+            properties: 
+              access_token: 
+                type: "string"
+                description: TTL accesstoken
+              refresh_token: 
+                type: "string"
+                description: use to exchange an new accesstoken
+              expires_in: 
+                type: "integer"
+                description: life time for access token
+              uid: 
+                type: "string"
+                description: HeHa uid
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    
+            
+            
+  /api/v1/clients:
+    get:
+      tags:
+        - OAuth Client
+      summary: List all clients
+      description: |
+        List OAuth Clients
+      responses:
+        200:
+          description: returns clients in list
+          schema:
+            type: array
+            items:
+              properties: 
+                name: 
+                  type: string
+                  description: client name
+                clientId: 
+                  type: string
+                  description: unique client id
+                clientSecret: 
+                  type: string
+                  description: client secret
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    post:
+      tags:
+        - OAuth Client
+      summary: Create client
+      description: |
+        Create OAuth Clients
+      parameters:
+        - name: name
+          in: formData
+          description: client name
+          required: true
+          type: string
+        - name: client_id
+          in: formData
+          description: unique client id
+          required: true
+          type: string
+        - name: client_secret
+          in: formData
+          description: client secret
+          required: true
+          type: string
+      responses:
+        200:
+          description: returns clients in list
+          schema:
+            type: array
+            items:
+              properties: 
+                name: 
+                  type: string
+                  description: client name
+                clientId: 
+                  type: string
+                  description: unique client id
+                clientSecret: 
+                  type: string
+                  description: client secret
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    
+  
+  
+  
+definitions:
+        
+  Error:
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      fields:
+        type: string
