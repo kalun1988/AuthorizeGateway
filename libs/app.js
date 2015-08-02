@@ -19,15 +19,23 @@ var httpProxy = require('http-proxy');
 var apiProxy = new httpProxy.createProxyServer();
 var app = express();
 
-
+//Allow CORS for Swagger UI testing
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+app.use('/static', express.static('public'));
 // app.use('/', api);
 // app.use('/api', api);
 //API PROXY
 
 //Resource Gateway
-app.get('/api/v1/members', function (req, res, next) { 
+var goResourceService=function (req, res, next) { 
   apiProxy.web(req, res, { target: 'http://localhost:1338' });
-});
+}
+app.get('/api/v1/me', goResourceService);
+app.get('/api/v1/members', goResourceService);
 
 
 var bodyParser = require('body-parser');

@@ -24,29 +24,34 @@ paths:
       parameters:
         - name: grant_type
           in: formData
-          description: OAuth 2 grant type (password)
+          description: OAuth 2 grant type
           required: true
           type: string
+          default: "password"
         - name: client_id
           in: formData
           description: OAuth 2 Client ID
           required: true
           type: string
+          default: "android"
         - name: client_secret
           in: formData
           description: OAuth 2 Client Secret
           required: true
           type: string
+          default: "SomeRandomCharsAndNumbers"
         - name: social
           in: formData
           description: (wechat) or (weibo)
           required: true
           type: string
+          default: "wechat"
         - name: social_info
           in: formData
           description: user info from 3rd party login in JSON
           required: true
           type: string
+          default: "{    \"openid\":\"OPENID\",    \" nickname\": \"NICKNAME\",    \"sex\":\"1\",    \"province\":\"PROVINCE\",    \"city\":\"CITY\",    \"country\":\"COUNTRY\",    \"headimgurl\":    \"http://wx.qlogo.cn/mmopen/g3MonUZtNHkdmzicIlibx6iaFqAc56vxLSUfpb6n5WKSYVY0ChQKkiaJSgQ1dZuTOgvLLrhJbERQQ4eMsv84eavHiaiceqxibJxCfHe/46\",     \"privilege\":[    \"PRIVILEGE1\",    \"PRIVILEGE2\"    ] }"
       responses:
         200:
           description: returns tokens for HeHa user
@@ -86,14 +91,22 @@ paths:
           description: OAuth 2 grant type (refresh_token)
           required: true
           type: string
+          default: "refresh_token"
         - name: client_id
           in: formData
           description: OAuth 2 Client ID
           required: true
           type: string
+          default: "android"
         - name: client_secret
           in: formData
           description: OAuth 2 Client Secret
+          required: true
+          type: string
+          default: "SomeRandomCharsAndNumbers"
+        - name: refresh_token
+          in: formData
+          description: Refresh Token
           required: true
           type: string
       responses:
